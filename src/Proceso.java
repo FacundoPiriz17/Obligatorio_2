@@ -26,8 +26,8 @@ public class Proceso {
     public int getTiempoRestante() { return tiempoRestante; }
     public int getPrioridad() { return prioridad; }
 
-    public void ejecutar(int quantum) {
-        tiempoRestante = Math.max(0, tiempoRestante - quantum);
+    public void ejecutar(int tiempoDeEjecucion) {
+        tiempoRestante = Math.max(0, tiempoRestante - tiempoDeEjecucion);
     }
 
     public boolean EnEjecucion() {
