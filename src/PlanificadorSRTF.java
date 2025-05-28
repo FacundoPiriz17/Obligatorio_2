@@ -36,7 +36,7 @@ public class PlanificadorSRTF extends Planificador {
                 cola.add(lista.get(indice++));
             }
 
-            if (!actual.EnEjecucion()) {
+            if (!actual.TodaviaEnEjecucion()) {
                 cola.add(actual);
             }
         }

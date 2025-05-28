@@ -17,7 +17,7 @@ public class Proceso {
         this.duracion = duracion;
         this.tiempoRestante = duracion;
         this.prioridad = prioridad;
-        this.estado = "Creación";
+        this.estado = "Inicio";
     }
 
     public String getNombre() { return nombre; }
@@ -30,7 +30,7 @@ public class Proceso {
         tiempoRestante = Math.max(0, tiempoRestante - tiempoDeEjecucion);
     }
 
-    public boolean EnEjecucion() {
+    public boolean TodaviaEnEjecucion() {
         return tiempoRestante == 0;
     }
 

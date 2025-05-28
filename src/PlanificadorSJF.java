@@ -13,9 +13,6 @@ public class PlanificadorSJF extends Planificador {
         List<Proceso> listaEspera = new ArrayList<>();
 
         System.out.println("Planificador SJF:");
-
-        System.out.println();
-
         while (!listaEspera.isEmpty() || !lista.isEmpty()) {
             while (!lista.isEmpty() && lista.get(0).getTiempoDeLlegada() <= tiempoActual) {
                 listaEspera.add(lista.remove(0));
