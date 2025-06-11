@@ -6,7 +6,7 @@ public class PlanificadorSJF extends Planificador {
         super(procesos);
     }
     @Override
-    public void ejecutar() {
+    public List<String> ejecutar() {
         List<Proceso> lista = new ArrayList<>(procesos);
         lista.sort((p1, p2) -> Integer.compare(p1.getTiempoDeLlegada(), p2.getTiempoDeLlegada()));
         int tiempoActual = 0;
@@ -20,14 +20,15 @@ public class PlanificadorSJF extends Planificador {
                 listaEspera.add(actual);
                 System.out.println("-----------------------------------");
                 System.out.println("Tiempo " + tiempoActual + ":");
-                System.out.println("Llega " + actual.getNombre() + " con ráfaga de " + actual.getDuracion());
+                System.out.println("Llega " + actual.getNombre());
+                System.out.println("Ráfaga de " + actual.getDuracion());
                 try{
                     Thread.sleep(500);
                 }
                 catch (InterruptedException e){
                     Thread.currentThread().interrupt();
                     System.out.println("Interrupción inesperada");
-                    return;
+                    return null;
                 }
             }
 
@@ -35,6 +36,14 @@ public class PlanificadorSJF extends Planificador {
                 System.out.println("-----------------------------------");
                 System.out.println("Tiempo " + tiempoActual + ": CPU inactiva");
                 tiempoActual++;
+                try{
+                    Thread.sleep(500);
+                }
+                catch (InterruptedException e){
+                    Thread.currentThread().interrupt();
+                    System.out.println("Interrupción inesperada");
+                    return null;
+                }
                 continue;
             }
 
@@ -43,8 +52,9 @@ public class PlanificadorSJF extends Planificador {
 
             for (int i = 0; i < p.getDuracion(); i++) {
                 System.out.println("-----------------------------------");
-                System.out.println("Ejecutando " + p.getNombre() + ", ráfagas restantes: " + (p.getDuracion() - i - 1));
-
+                System.out.println("Tiempo " + tiempoActual+":");
+                System.out.println("Ejecutando " + p.getNombre());
+                System.out.println("Ráfagas restantes: " + (p.getDuracion() - i - 1));
                 mapeoFinal.add(p.getNombre());
                 tiempoActual++;
 
@@ -52,7 +62,8 @@ public class PlanificadorSJF extends Planificador {
                     Proceso nuevo = lista.remove(0);
                     listaEspera.add(nuevo);
 
-                    System.out.println("Llega " + nuevo.getNombre() + " con ráfaga de " + nuevo.getDuracion());
+                    System.out.println("Llega " + nuevo.getNombre());
+                    System.out.println("Ráfaga de " + nuevo.getDuracion());
                 }
 
                 System.out.println("Cola de listos: " + listaEspera.stream().map(Proceso::getNombre).toList());
@@ -63,7 +74,7 @@ public class PlanificadorSJF extends Planificador {
                 catch (InterruptedException e){
                     Thread.currentThread().interrupt();
                     System.out.println("Interrupción inesperada");
-                    return;
+                    return null;
                 }
             }
         }
@@ -72,5 +83,6 @@ public class PlanificadorSJF extends Planificador {
         System.out.println("Lista de ejecución final:");
         System.out.println(mapeoFinal);
         System.out.println("La ejecución duró un total de " + tiempoActual + " ráfagas");
+        return mapeoFinal;
     }
 }

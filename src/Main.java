@@ -33,12 +33,11 @@ public class Main {
                 new Proceso("P4", 3, 2, 4),
                 new Proceso("P5", 4, 6, 8),
                 new Proceso("P6", 5, 7, 8),
-                new Proceso("P7", 3, 4, 12)
-
+                new Proceso("P7", 3, 4, 12),
+                new Proceso("P7", 6, 5, 0)
 
         );
-
-        new PlanificadorFCFS(clonar(listaProcesos)).ejecutar();
+        /*new PlanificadorFCFS(clonar(listaProcesos)).ejecutar();
         System.out.println();
         new PlanificadorSJF(clonar(listaProcesos)).ejecutar();
         System.out.println();
@@ -46,10 +45,10 @@ public class Main {
         System.out.println();
         new PlanificadorRoundRobin(clonar(listaProcesos2),3).ejecutar();
         System.out.println();
-        new PlanificadorPrioridades(clonar(listaProcesos3),true).ejecutar();
+        new PlanificadorPrioridades(clonar(listaProcesos4),true).ejecutar();
         System.out.println();
-        new PlanificadorPrioridades(clonar(listaProcesos3),false).ejecutar();
-        System.out.println();
+        new PlanificadorPrioridades(clonar(listaProcesos4),false).ejecutar();
+        System.out.println();*/
         new PlanificadorMulticolas(clonar(listaProcesos4),3).ejecutar();
     }
 

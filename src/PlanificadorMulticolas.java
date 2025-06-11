@@ -9,10 +9,14 @@ public class PlanificadorMulticolas extends Planificador {
     }
 
     @Override
-    public void ejecutar() {
+    public List<String> ejecutar() {
         List<Proceso> tiempoReal = new ArrayList<>();
         List<Proceso> interactivos = new ArrayList<>();
         List<Proceso> batch = new ArrayList<>();
+        List<String> mapeofinal = new ArrayList<>();
+        List<String> mapeoFCFS = new ArrayList<>();
+        List<String> mapeoRR = new ArrayList<>();
+        List<String> mapeoSJF = new ArrayList<>();
 
         for (Proceso p : procesos) {
             if (p.getPrioridad() >= 0 && p.getPrioridad() <= 5) {
@@ -27,20 +31,29 @@ public class PlanificadorMulticolas extends Planificador {
         System.out.println("Planificación Multicolas");
 
         if (!tiempoReal.isEmpty()) {
-            System.out.println("\n--- Ejecutando Cola Tiempo Real (FCFS) ---");
-            new PlanificadorFCFS(tiempoReal).ejecutar();
+            mapeoFCFS = new PlanificadorFCFS(tiempoReal).ejecutar();
         }
 
         if (!interactivos.isEmpty()) {
-            System.out.println("\n--- Ejecutando Cola Interactiva (Round Robin) ---");
-            new PlanificadorRoundRobin(interactivos, quantum).ejecutar();
+            mapeoRR = new PlanificadorRoundRobin(interactivos, quantum).ejecutar();
         }
 
         if (!batch.isEmpty()) {
-            System.out.println("\n--- Ejecutando Cola Batch (SJF) ---");
-            new PlanificadorSJF(batch).ejecutar();
+           mapeoSJF = new PlanificadorSJF(batch).ejecutar();
         }
 
-        System.out.println("\n== Fin de planificación multicolas ==");
+        System.out.println("\nFin de planificación multicolas");
+        for (String p : mapeoFCFS) {
+            mapeofinal.add(p);
+        }
+        for (String p : mapeoRR) {
+            mapeofinal.add(p);
+        }
+        for (String p : mapeoSJF) {
+            mapeofinal.add(p);
+        }
+        System.out.println(mapeofinal);
+
+        return mapeofinal;
     }
 }

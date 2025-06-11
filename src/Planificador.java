@@ -7,7 +7,7 @@ public abstract class Planificador {
         this.procesos = procesos;
     }
 
-    public abstract void ejecutar();
+    public abstract List<String> ejecutar();
 
     protected void setUp(){  //Cambiar el estado de los procesos
 
