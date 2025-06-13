@@ -95,8 +95,15 @@ public class PlanificadorPrioridades extends Planificador {
 
             System.out.println("Cola de listos: " + cola.stream().sorted(Comparator.comparingInt(Proceso::getPrioridad)).map(Proceso::getNombre).toList());
 
-            if (actual.TodaviaEnEjecucion()) {
+            if (actual.ejecucionFinalizada()) {
+                actual.setTiempoDeFinalizacion(tiempoActual);
+                actual.setTiempoDeRetorno();
+                actual.setTiempoDeEsperaNoExpropiativo();
                 actual = null;
+            }
+
+            for (Proceso proceso : cola) {
+                proceso.aumentarTiempoDeEspera();
             }
 
             try {
@@ -106,11 +113,12 @@ public class PlanificadorPrioridades extends Planificador {
                 System.out.println("Interrupción inesperada");
                 return null;
             }
+
+
         }
+
         System.out.println("-----------------------------------");
         System.out.println();
-        System.out.println("Lista de ejecución final:");
-        System.out.println(mapeoFinal);
         System.out.println("La ejecución duró un total de " + tiempoActual + " ráfagas");
         return mapeoFinal;
     }

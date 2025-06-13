@@ -9,10 +9,6 @@ public abstract class Planificador {
 
     public abstract List<String> ejecutar();
 
-    protected void setUp(){  //Cambiar el estado de los procesos
-
-    }
-
     protected void calcularTabla(){
 
     }

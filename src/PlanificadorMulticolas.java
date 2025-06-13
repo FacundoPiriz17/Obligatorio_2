@@ -13,15 +13,16 @@ public class PlanificadorMulticolas extends Planificador {
         List<Proceso> tiempoReal = new ArrayList<>();
         List<Proceso> interactivos = new ArrayList<>();
         List<Proceso> batch = new ArrayList<>();
+
         List<String> mapeofinal = new ArrayList<>();
         List<String> mapeoFCFS = new ArrayList<>();
         List<String> mapeoRR = new ArrayList<>();
         List<String> mapeoSJF = new ArrayList<>();
 
         for (Proceso p : procesos) {
-            if (p.getPrioridad() >= 0 && p.getPrioridad() <= 5) {
+            if (p.getPrioridad() >= -20 && p.getPrioridad() <= 0) {
                 tiempoReal.add(p.clonar());
-            } else if (p.getPrioridad() <= 10) {
+            } else if (p.getPrioridad() <= 19) {
                 interactivos.add(p.clonar());
             } else {
                 batch.add(p.clonar());
@@ -43,6 +44,13 @@ public class PlanificadorMulticolas extends Planificador {
         }
 
         System.out.println("\nFin de planificación multicolas");
+        System.out.println();
+        System.out.println("Lista de ejecuciones del planificador de procesos interactivos: ");
+        System.out.println(mapeoFCFS);
+        System.out.println("Lista de ejecuciones del planificador de procesos tiempo real: ");
+        System.out.println(mapeoRR);
+        System.out.println("Lista de ejecuciones del planificador de procesos batch: ");
+        System.out.println(mapeoSJF);
         for (String p : mapeoFCFS) {
             mapeofinal.add(p);
         }
@@ -52,7 +60,6 @@ public class PlanificadorMulticolas extends Planificador {
         for (String p : mapeoSJF) {
             mapeofinal.add(p);
         }
-        System.out.println(mapeofinal);
 
         return mapeofinal;
     }

@@ -71,13 +71,31 @@ public class PlanificadorFCFS extends Planificador {
                     System.out.println("Llega " + nuevo.getNombre());
                     System.out.println("Ráfaga de " + nuevo.getDuracion());
                 }
+                for (Proceso proceso : listaEspera) {
+                    proceso.aumentarTiempoDeEspera();
+                }
+
                 System.out.println("Cola de listos: " + listaEspera.stream().map(Proceso::getNombre).toList());
             }
+
+            if (p.ejecucionFinalizada()) {
+                p.setTiempoDeFinalizacion(tiempoActual);
+                p.setTiempoDeRespuesta();
+                p.setTiempoDeRetorno();
+                p.setTiempoDeEsperaNoExpropiativo();
+            }
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("Interrupción inesperada");
+                return null;
+            }
         }
+
         System.out.println("---------------------------------");
         System.out.println();
-        System.out.println("Lista de ejecución final:");
-        System.out.println(mapeoFinal);
         System.out.println("La ejecución duró un total de " + tiempoActual + " ráfagas");
         return mapeoFinal;
     }

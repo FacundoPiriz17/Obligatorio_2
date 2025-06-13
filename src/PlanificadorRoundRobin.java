@@ -97,11 +97,19 @@ public class PlanificadorRoundRobin extends Planificador {
                 System.out.println("Interrupción inesperada");
                 return null;
             }
+
+            if (p.ejecucionFinalizada()) {
+                p.setTiempoDeFinalizacion(tiempoActual);
+                p.setTiempoDeRetorno();
+                p.setTiempoDeEsperaExpropiativo();
+            }
+
+            for (Proceso proceso : cola) {
+                proceso.aumentarTiempoDeEspera();
+            }
         }
         System.out.println("-----------------------------------");
         System.out.println();
-        System.out.println("Lista de ejecución final:");
-        System.out.println(mapeoFinal);
         System.out.println("La ejecución duró un total de " + tiempoActual + " ráfagas");
         return mapeoFinal;
     }
