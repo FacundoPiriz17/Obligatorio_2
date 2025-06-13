@@ -26,18 +26,41 @@ public class Proceso {
         this.prioridad = prioridad;
     }
 
-    public String getNombre() { return nombre; }
-    public int getTiempoDeLlegada() { return tiempoDeLlegada; }
-    public int getDuracion() { return duracion; }
-    public int getTiempoRestante() { return tiempoRestante; }
-    public int getPrioridad() { return prioridad; }
-    public int getTiempoDeEspera() { return tiempoEspera; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public int  getTiempoDeRetorno() { return tiempoDeRetorno; }
+    public int getTiempoDeLlegada() {
+        return tiempoDeLlegada;
+    }
 
-    public int getTiempoDeFinalizacion() { return tiempoDeRespuesta; }
+    public int getDuracion() {
+        return duracion;
+    }
 
-    public int getTiempoDeRespuesta() { return tiempoDeRespuesta; }
+    public int getTiempoRestante() {
+        return tiempoRestante;
+    }
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public int getTiempoDeEspera() {
+        return tiempoEspera;
+    }
+
+    public int getTiempoDeRetorno() {
+        return tiempoDeRetorno;
+    }
+
+    public int getTiempoDeFinalizacion() {
+        return tiempoDeRespuesta;
+    }
+
+    public int getTiempoDeRespuesta() {
+        return tiempoDeRespuesta;
+    }
 
     public void ejecutar(int tiempoDeEjecucion) {
         tiempoRestante = Math.max(0, tiempoRestante - tiempoDeEjecucion);
@@ -60,16 +83,19 @@ public class Proceso {
             tiempoPrimeraEjecucion = tiempo;
         }
     }
+
     public void setTiempoDeRespuesta() {
-         tiempoDeRespuesta = tiempoPrimeraEjecucion - tiempoDeLlegada;
+        tiempoDeRespuesta = tiempoPrimeraEjecucion - tiempoDeLlegada;
     }
 
     public void setTiempoDeFinalizacion(int tiempo) {
         tiempoDeFinalizacion = tiempo;
     }
+
     public void setTiempoDeRetorno() {
         tiempoDeRetorno = tiempoDeFinalizacion - tiempoDeLlegada;
     }
+
     public void setTiempoDeEsperaExpropiativo() {
         tiempoEspera = tiempoDeRetorno - duracion;
     }
@@ -77,6 +103,5 @@ public class Proceso {
     public void setTiempoDeEsperaNoExpropiativo() {
         tiempoEspera = tiempoDeRespuesta;
     }
-
 
 }
