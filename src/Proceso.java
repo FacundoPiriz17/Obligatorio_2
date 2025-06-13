@@ -35,6 +35,8 @@ public class Proceso {
 
     public int  getTiempoDeRetorno() { return tiempoDeRetorno; }
 
+    public int getTiempoDeFinalizacion() { return tiempoDeRespuesta; }
+
     public int getTiempoDeRespuesta() { return tiempoDeRespuesta; }
 
     public void ejecutar(int tiempoDeEjecucion) {

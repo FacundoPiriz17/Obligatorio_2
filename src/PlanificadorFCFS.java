@@ -49,6 +49,7 @@ public class PlanificadorFCFS extends Planificador {
 
 
             Proceso p = listaEspera.remove(0);
+            p.setTiempoPrimeraEjecucion(tiempoActual);
 
             for (int i = 0; i < p.getDuracion(); i++) {
                 System.out.println("---------------------------------");
@@ -56,6 +57,7 @@ public class PlanificadorFCFS extends Planificador {
                 System.out.println("Ejecutando " + p.getNombre());
                 System.out.println("Ráfagas restantes: " + (p.getDuracion() - i - 1));
                 mapeoFinal.add(p.getNombre());
+                p.ejecutar(1);
                 tiempoActual++;
                 try {
                     Thread.sleep(500);
@@ -74,15 +76,14 @@ public class PlanificadorFCFS extends Planificador {
                 for (Proceso proceso : listaEspera) {
                     proceso.aumentarTiempoDeEspera();
                 }
-
                 System.out.println("Cola de listos: " + listaEspera.stream().map(Proceso::getNombre).toList());
             }
 
             if (p.ejecucionFinalizada()) {
                 p.setTiempoDeFinalizacion(tiempoActual);
                 p.setTiempoDeRespuesta();
-                p.setTiempoDeRetorno();
                 p.setTiempoDeEsperaNoExpropiativo();
+                p.setTiempoDeRetorno();
             }
 
             try {

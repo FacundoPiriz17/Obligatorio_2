@@ -47,7 +47,7 @@ public class Main {
         Planificador planificadorFCFS = new PlanificadorFCFS(clonar(listaProcesos));
         List<String> ejecucionFCFS = planificadorFCFS.ejecutar();
         ImprimirResultados(planificadorFCFS, ejecucionFCFS);
-
+/*
         Planificador planificadorSJF = new PlanificadorSJF(clonar(listaProcesos));
         List<String> ejecucionSJF = planificadorSJF.ejecutar();
         ImprimirResultados(planificadorSJF, ejecucionSJF);
@@ -71,7 +71,7 @@ public class Main {
         Planificador planificadorMulticolas = new PlanificadorMulticolas(clonar(listaProcesos5),3);
         List<String> ejecucionMulticolas  = planificadorMulticolas.ejecutar();
         ImprimirResultados(planificadorMulticolas, ejecucionMulticolas);
-
+*/
     }
 
     private static List<Proceso> clonar(List<Proceso> original) {
