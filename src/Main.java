@@ -5,11 +5,11 @@ import java.util.List;
 public class Main {
         public static void main(String[] args) {
                 List<Proceso> listaProcesos = Arrays.asList(
-                                new Proceso("P1", 0, 7),
-                                new Proceso("P2", 0, 6),
-                                new Proceso("P3", 3, 2),
-                                new Proceso("P4", 7, 6),
-                                new Proceso("P5", 8, 1));
+                        new Proceso("P1", 0, 7),
+                        new Proceso("P2", 0, 6),
+                        new Proceso("P3", 3, 2),
+                        new Proceso("P4", 7, 6),
+                        new Proceso("P5", 8, 1));
 
                 List<Proceso> listaProcesos2 = Arrays.asList(
                                 new Proceso("P1", 0, 8),
@@ -39,23 +39,22 @@ public class Main {
                                 new Proceso("P5", 4, 6, 8),
                                 new Proceso("P6", 6, 5, 0));
 
-                /*Planificador planificadorFCFS = new PlanificadorFCFS(clonar(listaProcesos));
+  /*              Planificador planificadorFCFS = new PlanificadorFCFS(clonar(listaProcesos));
                 List<String> ejecucionFCFS = planificadorFCFS.ejecutar();
                 ImprimirResultados(planificadorFCFS, ejecucionFCFS);
-
                 planificadorFCFS.mostrarMatriz();
 
                 Planificador planificadorSJF = new PlanificadorSJF(clonar(listaProcesos));
                 List<String> ejecucionSJF = planificadorSJF.ejecutar();
                 ImprimirResultados(planificadorSJF, ejecucionSJF);
                 planificadorSJF.mostrarMatriz();
-
+*/
 
                Planificador planificadorSRTF = new PlanificadorSRTF(clonar(listaProcesos));
                 List<String> ejecucionSRTF = planificadorSRTF.ejecutar();
                 ImprimirResultados(planificadorSRTF, ejecucionSRTF);
                 planificadorSRTF.mostrarMatriz();
-*/
+/*
                 Planificador planificadorRR = new
                 PlanificadorRoundRobin(clonar(listaProcesos2),3);
                 List<String> ejecucionRR = planificadorRR.ejecutar();

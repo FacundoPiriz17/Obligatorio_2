@@ -1,15 +1,17 @@
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 public class PlanificadorSJF extends Planificador {
     public PlanificadorSJF(List<Proceso> procesos) {
         super(procesos);
     }
+
     @Override
     public List<String> ejecutar() {
         List<Proceso> listaDeProcesos = new ArrayList<>(procesos);
-        listaDeProcesos.sort((p1, p2) -> Integer.compare(p1.getTiempoDeLlegada(), p2.getTiempoDeLlegada()));
+        listaDeProcesos.sort(Comparator.comparingInt(Proceso::getTiempoDeLlegada));
         int tiempoActual = 0;
         List<Proceso> listaEspera = new ArrayList<>();
         List<String> mapeoFinal = new ArrayList<>();
@@ -26,6 +28,7 @@ public class PlanificadorSJF extends Planificador {
                 continue;
             }
 
+            listaEspera.sort(Comparator.comparingInt(Proceso::getDuracion));
             Proceso p = listaEspera.remove(0);
             p.setTiempoPrimeraEjecucion(tiempoActual);
             tiempoActual = ejecutarProceso(p,tiempoActual,listaDeProcesos, listaEspera, mapeoFinal);
@@ -53,10 +56,10 @@ public class PlanificadorSJF extends Planificador {
             actual.ejecutar(1);
             imprimirColaDeListos(listaEspera);
             tiempoActual++;
-            verificarLLegadas(listaDeProcesos, tiempoActual, listaEspera);
             espera();
         }
         revisionProceso(actual, tiempoActual);
+        verificarLLegadas(listaDeProcesos, tiempoActual, listaEspera);
         espera();
         return tiempoActual;
     }
