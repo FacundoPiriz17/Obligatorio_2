@@ -92,7 +92,7 @@ public class Proceso {
         }
     }
     public void setTiempoDeEspera() {
-        this.tiempoEspera = tiempoDeRetorno - duracion;
+        this.tiempoEspera = tiempoDeFinalizacion - tiempoDeLlegada - duracion;
     }
 
     public void setTiempoDeFinalizacion(int tiempo) {

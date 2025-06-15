@@ -3,9 +3,12 @@ import java.util.*;
 public class PlanificadorMulticolas extends Planificador {
     private int quantum;
 
+    private List<Proceso> listaFinal;
+
     public PlanificadorMulticolas(List<Proceso> procesos, int quantum) {
         super(procesos);
         this.quantum = quantum;
+        listaFinal = new LinkedList<>();
     }
 
     @Override
@@ -29,38 +32,42 @@ public class PlanificadorMulticolas extends Planificador {
             }
         }
 
+        Planificador planificadorRoundRobin = new PlanificadorRoundRobin(interactivos, quantum);
+        Planificador planificadorFCFS = new PlanificadorFCFS(tiempoReal);
+        Planificador planificadorSJF = new PlanificadorSJF(batch);
+
         System.out.println("Planificación Multicolas");
 
         if (!tiempoReal.isEmpty()) {
-            mapeoFCFS = new PlanificadorFCFS(tiempoReal).ejecutar();
+            mapeoFCFS = planificadorFCFS.ejecutar();
         }
 
         if (!interactivos.isEmpty()) {
-            mapeoRR = new PlanificadorRoundRobin(interactivos, quantum).ejecutar();
+            mapeoRR = planificadorRoundRobin.ejecutar();
         }
 
         if (!batch.isEmpty()) {
-           mapeoSJF = new PlanificadorSJF(batch).ejecutar();
+           mapeoSJF = planificadorSJF.ejecutar();
         }
 
         System.out.println("\nFin de planificación multicolas");
         System.out.println();
         System.out.println("Lista de ejecuciones del planificador de procesos interactivos: ");
         System.out.println(mapeoFCFS);
+        planificadorFCFS.mostrarMatriz();
         System.out.println("Lista de ejecuciones del planificador de procesos tiempo real: ");
         System.out.println(mapeoRR);
+        planificadorRoundRobin.mostrarMatriz();
         System.out.println("Lista de ejecuciones del planificador de procesos batch: ");
         System.out.println(mapeoSJF);
-        for (String p : mapeoFCFS) {
-            mapeofinal.add(p);
-        }
-        for (String p : mapeoRR) {
-            mapeofinal.add(p);
-        }
-        for (String p : mapeoSJF) {
-            mapeofinal.add(p);
-        }
-
+        planificadorSJF.mostrarMatriz();
+        this.listaFinal.addAll(planificadorFCFS.getProcesos());
+        this.listaFinal.addAll(planificadorRoundRobin.getProcesos());
+        this.listaFinal.addAll(planificadorSJF.getProcesos());
         return mapeofinal;
+    }
+
+    public List<Proceso> getListaFinal() {
+        return listaFinal;
     }
 }
