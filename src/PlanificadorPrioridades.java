@@ -98,7 +98,6 @@ public class PlanificadorPrioridades extends Planificador {
             if (actual.ejecucionFinalizada()) {
                 actual.setTiempoDeFinalizacion(tiempoActual);
                 actual.setTiempoDeRetorno();
-                actual.setTiempoDeEsperaNoExpropiativo();
                 actual = null;
             }
 

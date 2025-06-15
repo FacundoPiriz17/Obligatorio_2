@@ -15,89 +15,58 @@ public class PlanificadorFCFS extends Planificador {
         List<String> mapeoFinal = new ArrayList<>();
 
         System.out.println("Planificación FCFS:");
+
         while (!listaEspera.isEmpty() || !lista.isEmpty()) {
-            while (!lista.isEmpty() && lista.get(0).getTiempoDeLlegada() <= tiempoActual) {
-                Proceso actual = lista.remove(0);
-                listaEspera.add(actual);
-                System.out.println("-----------------------------------");
-                System.out.println("Tiempo " + tiempoActual+":");
-                System.out.println("Llega " + actual.getNombre());
-                System.out.println("Ráfaga de " + actual.getDuracion());
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.out.println("Interrupción inesperada");
-                    return null;
-                }
-            }
+            verificarLlegadas(lista, listaEspera, tiempoActual);
 
             if (listaEspera.isEmpty()) {
-                System.out.println("-----------------------------------");
-                System.out.println("Tiempo " + tiempoActual + ": CPU inactiva");
+                mostrarEncabezadoTiempo(tiempoActual);
+                mostrarCpuInactiva(tiempoActual);
                 tiempoActual++;
-                try{
-                    Thread.sleep(500);
-                }
-                catch (InterruptedException e){
-                    Thread.currentThread().interrupt();
-                    System.out.println("Interrupción inesperada");
-                    return null;
-                }
+                espera();
                 continue;
             }
-
 
             Proceso p = listaEspera.remove(0);
             p.setTiempoPrimeraEjecucion(tiempoActual);
 
-            for (int i = 0; i < p.getDuracion(); i++) {
-                System.out.println("---------------------------------");
-                System.out.println("Tiempo " + tiempoActual+":");
-                System.out.println("Ejecutando " + p.getNombre());
-                System.out.println("Ráfagas restantes: " + (p.getDuracion() - i - 1));
-                mapeoFinal.add(p.getNombre());
-                p.ejecutar(1);
-                tiempoActual++;
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.out.println("Interrupción inesperada");
-                    return null;
-                }
+            tiempoActual = ejecutarProceso(p, tiempoActual, lista, listaEspera, mapeoFinal);
 
-                while (!lista.isEmpty() && lista.get(0).getTiempoDeLlegada() <= tiempoActual) {
-                    Proceso nuevo = lista.remove(0);
-                    listaEspera.add(nuevo);
-                    System.out.println("Llega " + nuevo.getNombre());
-                    System.out.println("Ráfaga de " + nuevo.getDuracion());
-                }
-                for (Proceso proceso : listaEspera) {
-                    proceso.aumentarTiempoDeEspera();
-                }
-                System.out.println("Cola de listos: " + listaEspera.stream().map(Proceso::getNombre).toList());
-            }
-
-            if (p.ejecucionFinalizada()) {
-                p.setTiempoDeFinalizacion(tiempoActual);
-                p.setTiempoDeRespuesta();
-                p.setTiempoDeEsperaNoExpropiativo();
-                p.setTiempoDeRetorno();
-            }
-
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.out.println("Interrupción inesperada");
-                return null;
-            }
         }
 
-        System.out.println("---------------------------------");
-        System.out.println();
-        System.out.println("La ejecución duró un total de " + tiempoActual + " ráfagas");
+       impresionFinal(tiempoActual);
         return mapeoFinal;
     }
+
+    private void verificarLlegadas(List<Proceso> lista, List<Proceso> listaEspera, int tiempoActual) {
+        while (!lista.isEmpty() && lista.get(0).getTiempoDeLlegada() <= tiempoActual) {
+            Proceso actual = lista.remove(0);
+            listaEspera.add(actual);
+            mostrarEncabezadoTiempo(tiempoActual);
+            mostrarLlegadaProceso(actual);
+            espera();
+        }
+    }
+
+
+    private int ejecutarProceso(Proceso p, int tiempoActual, List<Proceso> lista, List<Proceso> listaEspera, List<String> mapeoFinal) {
+        for (int i = 0; i < p.getDuracion(); i++) {
+            verificarLlegadas(lista, listaEspera, tiempoActual);
+            mostrarEncabezadoTiempo(tiempoActual);
+            System.out.println("Ejecutando " + p.getNombre());
+            System.out.println("Ráfagas restantes: " + (p.getDuracion() - i - 1));
+            mapeoFinal.add(p.getNombre());
+            p.ejecutar(1);
+            imprimirColaDeListos(listaEspera);
+            tiempoActual++;
+            espera();
+
+        }
+        revisionProceso(p, tiempoActual);
+        espera();
+        return tiempoActual;
+    }
+
+
+
 }

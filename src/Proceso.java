@@ -55,7 +55,7 @@ public class Proceso {
     }
 
     public int getTiempoDeFinalizacion() {
-        return tiempoDeRespuesta;
+        return tiempoDeFinalizacion;
     }
 
     public int getTiempoDeRespuesta() {
@@ -77,15 +77,22 @@ public class Proceso {
     public Proceso clonar() {
         return new Proceso(nombre, tiempoDeLlegada, duracion, prioridad);
     }
+    public void setTiempoDeRespuesta() {
+        tiempoDeRespuesta = tiempoPrimeraEjecucion - tiempoDeLlegada;
+    }
+
+    public int getTiempoPrimeraEjecucion() {
+        return tiempoPrimeraEjecucion;
+    }
 
     public void setTiempoPrimeraEjecucion(int tiempo) {
         if (tiempoPrimeraEjecucion == -1) {
             tiempoPrimeraEjecucion = tiempo;
+            setTiempoDeRespuesta();
         }
     }
-
-    public void setTiempoDeRespuesta() {
-        tiempoDeRespuesta = tiempoPrimeraEjecucion - tiempoDeLlegada;
+    public void setTiempoDeEspera() {
+        this.tiempoEspera = tiempoDeRetorno - duracion;
     }
 
     public void setTiempoDeFinalizacion(int tiempo) {
@@ -94,14 +101,6 @@ public class Proceso {
 
     public void setTiempoDeRetorno() {
         tiempoDeRetorno = tiempoDeFinalizacion - tiempoDeLlegada;
-    }
-
-    public void setTiempoDeEsperaExpropiativo() {
-        tiempoEspera = tiempoDeRetorno - duracion;
-    }
-
-    public void setTiempoDeEsperaNoExpropiativo() {
-        tiempoEspera = tiempoDeRespuesta;
     }
 
 }

@@ -1,3 +1,4 @@
+import java.util.Collection;
 import java.util.List;
 
 public abstract class Planificador {
@@ -8,6 +9,50 @@ public abstract class Planificador {
     }
 
     public abstract List<String> ejecutar();
+
+    protected void espera() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Interrupción inesperada");
+        }
+    }
+
+    protected void mostrarCpuInactiva(int tiempoActual) {
+        System.out.println("-----------------------------------");
+        System.out.println("Tiempo " + tiempoActual + ": CPU inactiva");
+    }
+
+    protected void mostrarLlegadaProceso(Proceso p) {
+        System.out.println("Llega " + p.getNombre());
+        System.out.println("Ráfaga de " + p.getDuracion());
+        if (p.getPrioridad() != 0) {
+            System.out.println("Prioridad: " + p.getPrioridad());
+        }
+    }
+
+    protected void mostrarEncabezadoTiempo(int tiempoActual) {
+        System.out.println("-----------------------------------");
+        System.out.println("Tiempo " + tiempoActual + ":");
+    }
+
+    protected void revisionProceso(Proceso actual, int tiempoActual) {
+        if (actual.ejecucionFinalizada()) {
+            actual.setTiempoDeFinalizacion(tiempoActual);
+            actual.setTiempoDeRetorno();
+            actual.setTiempoDeEspera();
+        }
+    }
+
+    protected void impresionFinal(int tiempoActual){
+        System.out.println("---------------------------------");
+        System.out.println("\nLa ejecución duró un total de " + tiempoActual + " ráfagas");
+    }
+
+    protected void imprimirColaDeListos(Collection<Proceso> listaEspera) {
+        System.out.println("Cola de listos: " + listaEspera.stream().map(Proceso::getNombre).toList());
+    }
 
     public void mostrarMatriz() {
         int[][] matriz = new int[procesos.size()][3];

@@ -23,34 +23,13 @@ public class PlanificadorRoundRobin extends Planificador {
 
         System.out.println("Planificación Round Robin de quantum " + quantum +":");
         while (!cola.isEmpty() || !auxiliar.isEmpty()) {
-            while (!auxiliar.isEmpty() && auxiliar.get(0).getTiempoDeLlegada() <= tiempoActual) {
-                Proceso actual = auxiliar.remove(0);
-                cola.add(actual);
-                System.out.println("-----------------------------------");
-                System.out.println("Tiempo " + tiempoActual + ":");
-                System.out.println("Llega " + actual.getNombre());
-                System.out.println("Ráfaga de " + actual.getDuracion());
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.out.println("Interrupción inesperada");
-                    return null;
-                }
-            }
+            verificarLlegada(auxiliar, tiempoActual, cola);
 
             if (cola.isEmpty()) {
-                System.out.println("-----------------------------------");
-                System.out.println("Tiempo " + tiempoActual + ": CPU inactiva");
+                mostrarEncabezadoTiempo(tiempoActual);
+                mostrarCpuInactiva(tiempoActual);
                 tiempoActual++;
-                try{
-                    Thread.sleep(500);
-                }
-                catch (InterruptedException e){
-                    Thread.currentThread().interrupt();
-                    System.out.println("Interrupción inesperada");
-                    return null;
-                }
+                espera();
                 continue;
             }
 
@@ -58,31 +37,7 @@ public class PlanificadorRoundRobin extends Planificador {
             int rafagasPendientes = rafagasRestantes.get(p.getNombre());
             int tiempoEjecutado = Math.min(quantum, rafagasPendientes);
 
-            for (int i = 0; i < tiempoEjecutado; i++) {
-                System.out.println("-----------------------------------");
-                System.out.println("Tiempo " + tiempoActual+":");
-                System.out.println("Ejecutando " + p.getNombre());
-                System.out.println("Ráfagas restantes: " + (rafagasPendientes - i - 1));
-                mapeoFinal.add(p.getNombre());
-                tiempoActual++;
-
-                while (!auxiliar.isEmpty() && auxiliar.get(0).getTiempoDeLlegada() <= tiempoActual) {
-                    Proceso nuevo = auxiliar.remove(0);
-                    cola.add(nuevo);
-                    System.out.println("Llega " + nuevo.getNombre());
-                    System.out.println("Ráfaga de " + nuevo.getDuracion());
-                }
-                System.out.println("Cola de listos: " + cola.stream().map(Proceso::getNombre).toList());
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.out.println("Interrupción inesperada");
-                    return null;
-                }
-
-            }
+            tiempoActual = ejecutarProceso(p, tiempoEjecutado, tiempoActual,  rafagasPendientes, mapeoFinal, cola, auxiliar);
 
             int nuevasRafagas = rafagasPendientes - tiempoEjecutado;
             if (nuevasRafagas > 0) {
@@ -90,27 +45,35 @@ public class PlanificadorRoundRobin extends Planificador {
                 cola.add(p);
             }
 
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.out.println("Interrupción inesperada");
-                return null;
-            }
-
-            if (p.ejecucionFinalizada()) {
-                p.setTiempoDeFinalizacion(tiempoActual);
-                p.setTiempoDeRetorno();
-                p.setTiempoDeEsperaExpropiativo();
-            }
-
-            for (Proceso proceso : cola) {
-                proceso.aumentarTiempoDeEspera();
-            }
         }
-        System.out.println("-----------------------------------");
-        System.out.println();
-        System.out.println("La ejecución duró un total de " + tiempoActual + " ráfagas");
+        impresionFinal(tiempoActual);
         return mapeoFinal;
+    }
+
+    private void verificarLlegada(List<Proceso> auxiliar, int tiempoActual, Queue<Proceso> cola) {
+        while (!auxiliar.isEmpty() && auxiliar.get(0).getTiempoDeLlegada() <= tiempoActual) {
+            Proceso actual = auxiliar.remove(0);
+            cola.add(actual);
+            mostrarEncabezadoTiempo(tiempoActual);
+            mostrarLlegadaProceso(actual);
+            espera();
+        }
+    }
+
+    private int ejecutarProceso(Proceso actual, int tiempoEjecutado, int tiempoActual, int rafagasPendientes, Collection mapeoFinal, Queue<Proceso> cola,List<Proceso> auxiliar) {
+        for (int i = 0; i < tiempoEjecutado; i++) {
+            verificarLlegada(auxiliar, tiempoActual, cola);
+            actual.setTiempoPrimeraEjecucion(tiempoActual);
+            mostrarEncabezadoTiempo(tiempoActual);
+            System.out.println("Ejecutando " + actual.getNombre());
+            System.out.println("Ráfagas restantes: " + (rafagasPendientes - i - 1));
+            mapeoFinal.add(actual.getNombre());
+            tiempoActual++;
+            imprimirColaDeListos(cola);
+        }
+        actual.ejecutar(tiempoEjecutado);
+        revisionProceso(actual, tiempoActual);
+        espera();
+        return tiempoActual;
     }
 }
