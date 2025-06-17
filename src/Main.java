@@ -17,12 +17,6 @@ public class Main {
                                 new Proceso("P3", 2, 2),
                                 new Proceso("P4", 5, 5));
 
-                List<Proceso> listaProcesos3 = Arrays.asList(
-                                new Proceso("P1", 0, 6, 2),
-                                new Proceso("P2", 2, 4, 1),
-                                new Proceso("P3", 4, 2, 3),
-                                new Proceso("P4", 6, 5, 2));
-
                 List<Proceso> listaProcesos4 = Arrays.asList(
                                 new Proceso("P1", 0, 5, 2),
                                 new Proceso("P2", 1, 4, 1),
@@ -64,8 +58,7 @@ public class Main {
 
                 Planificador planificadorPrioridadesNoExpropiativo = new
                 PlanificadorPrioridades(clonar(listaProcesos4),false);
-                List<String> ejecucionPrioridadesNoExpropiativo =
-                planificadorPrioridadesNoExpropiativo.ejecutar();
+                List<String> ejecucionPrioridadesNoExpropiativo = planificadorPrioridadesNoExpropiativo.ejecutar();
                 planificadorPrioridadesNoExpropiativo.mostrarMatriz();
 
                 PlanificadorMulticolas planificadorMulticolas = new PlanificadorMulticolas(clonar(listaProcesos5),3);
