@@ -35,35 +35,32 @@ public class Main {
                 );
 
               Planificador planificadorFCFS = new PlanificadorFCFS(clonar(listaProcesos));
-                List<String> ejecucionFCFS = planificadorFCFS.ejecutar();
-                planificadorFCFS.mostrarMatriz();
+              planificadorFCFS.ejecutar();
+              planificadorFCFS.mostrarMatriz();
 
-                Planificador planificadorSJF = new PlanificadorSJF(clonar(listaProcesos));
-                List<String> ejecucionSJF = planificadorSJF.ejecutar();
-                planificadorSJF.mostrarMatriz();
+              Planificador planificadorSJF = new PlanificadorSJF(clonar(listaProcesos));
+              planificadorSJF.ejecutar();
+              planificadorSJF.mostrarMatriz();
 
+              Planificador planificadorSRTF = new PlanificadorSRTF(clonar(listaProcesos));
+              planificadorSRTF.ejecutar();
+              planificadorSRTF.mostrarMatriz();
 
-               Planificador planificadorSRTF = new PlanificadorSRTF(clonar(listaProcesos));
-                List<String> ejecucionSRTF = planificadorSRTF.ejecutar();
-                planificadorSRTF.mostrarMatriz();
+              Planificador planificadorRR = new PlanificadorRoundRobin(clonar(listaProcesos2),3);
+              planificadorRR.ejecutar();
+              planificadorRR.mostrarMatriz();
 
-                Planificador planificadorRR = new
-                PlanificadorRoundRobin(clonar(listaProcesos2),3);
-                List<String> ejecucionRR = planificadorRR.ejecutar();
-                planificadorRR.mostrarMatriz();
+              Planificador planificadorPrioridadesExpropiativo = new PlanificadorPrioridades(clonar(listaProcesos4),true);
+              planificadorPrioridadesExpropiativo.ejecutar();
+              planificadorPrioridadesExpropiativo.mostrarMatriz();
 
-                Planificador planificadorPrioridadesExpropiativo = new PlanificadorPrioridades(clonar(listaProcesos4),true);
-                List<String> ejecucionPrioridadesExpropiativo = planificadorPrioridadesExpropiativo.ejecutar();
-                planificadorPrioridadesExpropiativo.mostrarMatriz();
+              Planificador planificadorPrioridadesNoExpropiativo = new PlanificadorPrioridades(clonar(listaProcesos4),false);
+              planificadorPrioridadesNoExpropiativo.ejecutar();
+              planificadorPrioridadesNoExpropiativo.mostrarMatriz();
 
-                Planificador planificadorPrioridadesNoExpropiativo = new
-                PlanificadorPrioridades(clonar(listaProcesos4),false);
-                List<String> ejecucionPrioridadesNoExpropiativo = planificadorPrioridadesNoExpropiativo.ejecutar();
-                planificadorPrioridadesNoExpropiativo.mostrarMatriz();
-
-                PlanificadorMulticolas planificadorMulticolas = new PlanificadorMulticolas(clonar(listaProcesos5),3);
-                List<String> ejecucionMulticolas = planificadorMulticolas.ejecutar();
-                planificadorMulticolas.mostrarMatriz(planificadorMulticolas.getListaFinal());
+              PlanificadorMulticolas planificadorMulticolas = new PlanificadorMulticolas(clonar(listaProcesos5),3);
+              planificadorMulticolas.ejecutar();
+              planificadorMulticolas.mostrarMatriz(planificadorMulticolas.getListaFinal());
         }
 
         private static List<Proceso> clonar(List<Proceso> original) {
