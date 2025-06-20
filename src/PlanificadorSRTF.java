@@ -7,7 +7,7 @@ public class PlanificadorSRTF extends Planificador {
     }
 
     @Override
-    public List<String> ejecutar() {
+    public List<String> ejecutar() { // ejecuta el planificador SRTF (Shortest Remaining Time First)
         List<Proceso> lista = new ArrayList<>(procesos);
         lista.sort(Comparator.comparingInt(Proceso::getTiempoDeLlegada));
         PriorityQueue<Proceso> cola = new PriorityQueue<>(Comparator.comparingInt(Proceso::getTiempoRestante));
@@ -19,7 +19,7 @@ public class PlanificadorSRTF extends Planificador {
 
         while (!cola.isEmpty() || indice < lista.size()) {
 
-            indice = verificarLlegadas(lista,cola,indice,tiempoActual);
+            indice = verificarLlegadas(lista, cola, indice, tiempoActual);
             espera();
 
             if (cola.isEmpty()) {
@@ -32,14 +32,13 @@ public class PlanificadorSRTF extends Planificador {
 
             Proceso actual = cola.poll();
             actual.setTiempoPrimeraEjecucion(tiempoActual);
-            tiempoActual = ejecutarProceso(actual,tiempoActual,mapeoFinal);
+            tiempoActual = ejecutarProceso(actual, tiempoActual, mapeoFinal);
 
             imprimirColaDeListos(cola);
-            indice = verificarLlegadas(lista,cola,indice,tiempoActual);
+            indice = verificarLlegadas(lista, cola, indice, tiempoActual);
             espera();
 
-
-            revisionProceso(actual,tiempoActual);
+            revisionProceso(actual, tiempoActual);
 
             if (!actual.ejecucionFinalizada()) {
                 cola.add(actual);
@@ -49,7 +48,13 @@ public class PlanificadorSRTF extends Planificador {
         return mapeoFinal;
     }
 
-    private int verificarLlegadas(List<Proceso> lista, PriorityQueue<Proceso> cola, int indice, int tiempoActual) {
+    private int verificarLlegadas(List<Proceso> lista, PriorityQueue<Proceso> cola, int indice, int tiempoActual) { // verifica
+                                                                                                                    // en
+                                                                                                                    // que
+                                                                                                                    // tiempo
+                                                                                                                    // llega
+                                                                                                                    // cada
+                                                                                                                    // proceso
         while (indice < lista.size() && lista.get(indice).getTiempoDeLlegada() <= tiempoActual) {
             Proceso nuevo = lista.get(indice++);
             cola.add(nuevo);
@@ -59,14 +64,16 @@ public class PlanificadorSRTF extends Planificador {
         return indice;
     }
 
-    private int ejecutarProceso(Proceso actual, int tiempoActual, Collection mapeoFinal) {
+    private int ejecutarProceso(Proceso actual, int tiempoActual, Collection mapeoFinal) { // ejecuta SRTF en el proceso
+                                                                                           // que se le pasa como
+                                                                                           // parametro
         mostrarEncabezadoTiempo(tiempoActual);
         System.out.println("Ejecutando " + actual.getNombre());
         System.out.println("Ráfagas restantes: " + (actual.getTiempoRestante() - 1));
         mapeoFinal.add(actual.getNombre());
         actual.ejecutar(1);
         tiempoActual++;
-        return  tiempoActual;
+        return tiempoActual;
     }
 
 }

@@ -9,7 +9,7 @@ public class PlanificadorSJF extends Planificador {
     }
 
     @Override
-    public List<String> ejecutar() {
+    public List<String> ejecutar() { // Ejecuta el planificador SJF (Shortest Job First)
         List<Proceso> listaDeProcesos = new ArrayList<>(procesos);
         listaDeProcesos.sort(Comparator.comparingInt(Proceso::getTiempoDeLlegada));
         int tiempoActual = 0;
@@ -31,13 +31,19 @@ public class PlanificadorSJF extends Planificador {
             listaEspera.sort(Comparator.comparingInt(Proceso::getDuracion));
             Proceso p = listaEspera.remove(0);
             p.setTiempoPrimeraEjecucion(tiempoActual);
-            tiempoActual = ejecutarProceso(p,tiempoActual,listaDeProcesos, listaEspera, mapeoFinal);
+            tiempoActual = ejecutarProceso(p, tiempoActual, listaDeProcesos, listaEspera, mapeoFinal);
         }
         impresionFinal(tiempoActual);
         return mapeoFinal;
     }
 
-    private void verificarLLegadas(List <Proceso> listaDeProcesos, int tiempoActual, List <Proceso> listaEspera) {
+    private void verificarLLegadas(List<Proceso> listaDeProcesos, int tiempoActual, List<Proceso> listaEspera) { // Verifica
+                                                                                                                 // en
+                                                                                                                 // qué
+                                                                                                                 // tiempo
+                                                                                                                 // llega
+                                                                                                                 // cada
+                                                                                                                 // proceso
         while (!listaDeProcesos.isEmpty() && listaDeProcesos.get(0).getTiempoDeLlegada() <= tiempoActual) {
             Proceso actual = listaDeProcesos.remove(0);
             listaEspera.add(actual);
@@ -47,7 +53,9 @@ public class PlanificadorSJF extends Planificador {
         }
     }
 
-    private int ejecutarProceso(Proceso actual, int tiempoActual, List <Proceso>listaDeProcesos , List<Proceso> listaEspera , Collection mapeoFinal) {
+    private int ejecutarProceso(Proceso actual, int tiempoActual, List<Proceso> listaDeProcesos,
+            List<Proceso> listaEspera, Collection mapeoFinal) { // Ejecuta el SJF en un proceso que se le pasa como
+                                                                // parámetro
         for (int i = 0; i < actual.getDuracion(); i++) {
             mostrarEncabezadoTiempo(tiempoActual);
             System.out.println("Ejecutando " + actual.getNombre());

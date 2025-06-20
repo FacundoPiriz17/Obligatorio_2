@@ -7,7 +7,7 @@ public class PlanificadorFCFS extends Planificador {
     }
 
     @Override
-    public List<String> ejecutar() {
+    public List<String> ejecutar() { // ejecuta el planificador
         List<Proceso> lista = new ArrayList<>(procesos);
         lista.sort((p1, p2) -> Integer.compare(p1.getTiempoDeLlegada(), p2.getTiempoDeLlegada()));
         int tiempoActual = 0;
@@ -34,11 +34,14 @@ public class PlanificadorFCFS extends Planificador {
 
         }
 
-       impresionFinal(tiempoActual);
+        impresionFinal(tiempoActual);
         return mapeoFinal;
     }
 
-    private void verificarLlegadas(List<Proceso> lista, List<Proceso> listaEspera, int tiempoActual) {
+    private void verificarLlegadas(List<Proceso> lista, List<Proceso> listaEspera, int tiempoActual) { // verifica en
+                                                                                                       // que tiempo
+                                                                                                       // llega cada
+                                                                                                       // proceso
         while (!lista.isEmpty() && lista.get(0).getTiempoDeLlegada() <= tiempoActual) {
             Proceso actual = lista.remove(0);
             listaEspera.add(actual);
@@ -48,8 +51,8 @@ public class PlanificadorFCFS extends Planificador {
         }
     }
 
-
-    private int ejecutarProceso(Proceso p, int tiempoActual, List<Proceso> lista, List<Proceso> listaEspera, List<String> mapeoFinal) {
+    private int ejecutarProceso(Proceso p, int tiempoActual, List<Proceso> lista, List<Proceso> listaEspera,
+            List<String> mapeoFinal) { // ejecuta el fcfs en un proceso que se le pasa como parametro
         for (int i = 0; i < p.getDuracion(); i++) {
             verificarLlegadas(lista, listaEspera, tiempoActual);
             mostrarEncabezadoTiempo(tiempoActual);
@@ -66,7 +69,5 @@ public class PlanificadorFCFS extends Planificador {
         espera();
         return tiempoActual;
     }
-
-
 
 }

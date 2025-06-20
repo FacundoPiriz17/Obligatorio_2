@@ -7,8 +7,9 @@ public class PlanificadorRoundRobin extends Planificador {
         super(procesos);
         this.quantum = quantum;
     }
+
     @Override
-    public List<String> ejecutar() {
+    public List<String> ejecutar() { // ejecuta el planificador Round Robin
         Queue<Proceso> cola = new LinkedList<>();
         List<Proceso> auxiliar = new ArrayList<>(procesos);
         auxiliar.sort((p1, p2) -> Integer.compare(p1.getTiempoDeLlegada(), p2.getTiempoDeLlegada()));
@@ -21,7 +22,7 @@ public class PlanificadorRoundRobin extends Planificador {
 
         int tiempoActual = 0;
 
-        System.out.println("Planificación Round Robin de quantum " + quantum +":");
+        System.out.println("Planificación Round Robin de quantum " + quantum + ":");
         while (!cola.isEmpty() || !auxiliar.isEmpty()) {
             verificarLlegada(auxiliar, tiempoActual, cola);
 
@@ -37,7 +38,8 @@ public class PlanificadorRoundRobin extends Planificador {
             int rafagasPendientes = rafagasRestantes.get(p.getNombre());
             int tiempoEjecutado = Math.min(quantum, rafagasPendientes);
 
-            tiempoActual = ejecutarProceso(p, tiempoEjecutado, tiempoActual,  rafagasPendientes, mapeoFinal, cola, auxiliar);
+            tiempoActual = ejecutarProceso(p, tiempoEjecutado, tiempoActual, rafagasPendientes, mapeoFinal, cola,
+                    auxiliar);
 
             int nuevasRafagas = rafagasPendientes - tiempoEjecutado;
             if (nuevasRafagas > 0) {
@@ -50,7 +52,9 @@ public class PlanificadorRoundRobin extends Planificador {
         return mapeoFinal;
     }
 
-    private void verificarLlegada(List<Proceso> auxiliar, int tiempoActual, Queue<Proceso> cola) {
+    private void verificarLlegada(List<Proceso> auxiliar, int tiempoActual, Queue<Proceso> cola) { // verifica en qué
+                                                                                                   // tiempo llega cada
+                                                                                                   // proceso
         while (!auxiliar.isEmpty() && auxiliar.get(0).getTiempoDeLlegada() <= tiempoActual) {
             Proceso actual = auxiliar.remove(0);
             cola.add(actual);
@@ -60,7 +64,9 @@ public class PlanificadorRoundRobin extends Planificador {
         }
     }
 
-    private int ejecutarProceso(Proceso actual, int tiempoEjecutado, int tiempoActual, int rafagasPendientes, Collection mapeoFinal, Queue<Proceso> cola,List<Proceso> auxiliar) {
+    private int ejecutarProceso(Proceso actual, int tiempoEjecutado, int tiempoActual, int rafagasPendientes,
+            Collection mapeoFinal, Queue<Proceso> cola, List<Proceso> auxiliar) // ejecuta un proceso especificado
+    {
         for (int i = 0; i < tiempoEjecutado; i++) {
             verificarLlegada(auxiliar, tiempoActual, cola);
             actual.setTiempoPrimeraEjecucion(tiempoActual);

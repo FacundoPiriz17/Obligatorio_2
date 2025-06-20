@@ -62,18 +62,19 @@ public class Proceso {
         return tiempoDeRespuesta;
     }
 
-    public void ejecutar(int tiempoDeEjecucion) {
+    public void ejecutar(int tiempoDeEjecucion) { // ejecuta el proceso durante un tiempo determinado
         tiempoRestante = Math.max(0, tiempoRestante - tiempoDeEjecucion);
     }
 
-    public boolean ejecucionFinalizada() {
+    public boolean ejecucionFinalizada() { // verifica si su ejecucion termino
         return tiempoRestante == 0;
     }
 
-    public Proceso clonar() {
+    public Proceso clonar() { // clona el proceso
         return new Proceso(nombre, tiempoDeLlegada, duracion, prioridad);
     }
-    public void setTiempoDeRespuesta() {
+
+    public void setTiempoDeRespuesta() { // se calcula el tiempo de respuesta
         tiempoDeRespuesta = tiempoPrimeraEjecucion - tiempoDeLlegada;
     }
 
@@ -81,13 +82,14 @@ public class Proceso {
         return tiempoPrimeraEjecucion;
     }
 
-    public void setTiempoPrimeraEjecucion(int tiempo) {
+    public void setTiempoPrimeraEjecucion(int tiempo) { // se calcula el tiempo de la primera ejecucion
         if (tiempoPrimeraEjecucion == -1) {
             tiempoPrimeraEjecucion = tiempo;
             setTiempoDeRespuesta();
         }
     }
-    public void setTiempoDeEspera() {
+
+    public void setTiempoDeEspera() { // se calcula el tiempo de espera del proceso
         this.tiempoEspera = tiempoDeFinalizacion - tiempoDeLlegada - duracion;
     }
 
@@ -95,7 +97,7 @@ public class Proceso {
         tiempoDeFinalizacion = tiempo;
     }
 
-    public void setTiempoDeRetorno() {
+    public void setTiempoDeRetorno() { // se calcula el tiempo de retorno del proceso
         tiempoDeRetorno = tiempoDeFinalizacion - tiempoDeLlegada;
     }
 

@@ -7,14 +7,14 @@ public abstract class Planificador {
     protected List<Proceso> procesos = new LinkedList<Proceso>();
 
     public Planificador(List<Proceso> procesos) {
-        for (Proceso p : procesos){
+        for (Proceso p : procesos) {
             this.procesos.add(p.clonar());
         }
     }
 
     public abstract List<String> ejecutar();
 
-    protected void espera() {
+    protected void espera() { // proboca una demora de 0.5 segundos
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -23,12 +23,12 @@ public abstract class Planificador {
         }
     }
 
-    protected void mostrarCpuInactiva(int tiempoActual) {
+    protected void mostrarCpuInactiva(int tiempoActual) { // Muestra cuando la CPU está inactiva
         System.out.println("-----------------------------------");
         System.out.println("Tiempo " + tiempoActual + ": CPU inactiva");
     }
 
-    protected void mostrarLlegadaProceso(Proceso p) {
+    protected void mostrarLlegadaProceso(Proceso p) { // Muestra cuando un proceso llega a la CPU
         System.out.println("Llega " + p.getNombre());
         System.out.println("Ráfaga de " + p.getDuracion());
         if (p.getPrioridad() != 0) {
@@ -41,7 +41,7 @@ public abstract class Planificador {
         System.out.println("Tiempo " + tiempoActual + ":");
     }
 
-    protected void revisionProceso(Proceso actual, int tiempoActual) {
+    protected void revisionProceso(Proceso actual, int tiempoActual) { // Revisa el estado de un proceso
         if (actual.ejecucionFinalizada()) {
             actual.setTiempoDeFinalizacion(tiempoActual);
             actual.setTiempoDeRetorno();
@@ -49,7 +49,7 @@ public abstract class Planificador {
         }
     }
 
-    protected void impresionFinal(int tiempoActual){
+    protected void impresionFinal(int tiempoActual) {
         System.out.println("---------------------------------");
         System.out.println("\nLa ejecución duró un total de " + tiempoActual + " ráfagas");
     }
@@ -58,11 +58,11 @@ public abstract class Planificador {
         System.out.println("Cola de listos: " + listaEspera.stream().map(Proceso::getNombre).toList());
     }
 
-    public void mostrarMatriz(){
+    public void mostrarMatriz() { // muestra matriz con tiempo de espera, tiempo de retorno, tiempo de respuesta
         mostrarMatriz(procesos);
     }
 
-    public void mostrarMatriz(List<Proceso> lista) {
+    public void mostrarMatriz(List<Proceso> lista) { // crea el formato para mostrar la matriz
         int[][] matriz = new int[lista.size()][3];
 
         for (int i = 0; i < lista.size(); i++) {
@@ -90,7 +90,7 @@ public abstract class Planificador {
         System.out.println(lineaSeparadora);
     }
 
-    public List<Proceso> getProcesos(){
+    public List<Proceso> getProcesos() {
         return procesos;
     }
 

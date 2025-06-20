@@ -12,7 +12,7 @@ public class PlanificadorMulticolas extends Planificador {
     }
 
     @Override
-    public List<String> ejecutar() {
+    public List<String> ejecutar() { // ejecuta el planificador multicolas
         List<Proceso> tiempoReal = new ArrayList<>();
         List<Proceso> interactivos = new ArrayList<>();
         List<Proceso> batch = new ArrayList<>();
@@ -47,7 +47,7 @@ public class PlanificadorMulticolas extends Planificador {
         }
 
         if (!batch.isEmpty()) {
-           mapeoSJF = planificadorSJF.ejecutar();
+            mapeoSJF = planificadorSJF.ejecutar();
         }
 
         System.out.println("\nFin de planificación multicolas");
