@@ -70,10 +70,6 @@ public class Proceso {
         return tiempoRestante == 0;
     }
 
-    public void aumentarTiempoDeEspera() {
-        tiempoEspera += 1;
-    }
-
     public Proceso clonar() {
         return new Proceso(nombre, tiempoDeLlegada, duracion, prioridad);
     }

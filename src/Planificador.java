@@ -1,11 +1,15 @@
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Planificador {
-    protected List<Proceso> procesos;
+    protected List<Proceso> procesos = new LinkedList<Proceso>();
 
     public Planificador(List<Proceso> procesos) {
-        this.procesos = procesos;
+        for (Proceso p : procesos){
+            this.procesos.add(p.clonar());
+        }
     }
 
     public abstract List<String> ejecutar();

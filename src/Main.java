@@ -34,39 +34,32 @@ public class Main {
                         new Proceso("P6", 5, 5, 30)
                 );
 
-              Planificador planificadorFCFS = new PlanificadorFCFS(clonar(listaProcesos));
+              Planificador planificadorFCFS = new PlanificadorFCFS(listaProcesos);
               planificadorFCFS.ejecutar();
               planificadorFCFS.mostrarMatriz();
 
-              Planificador planificadorSJF = new PlanificadorSJF(clonar(listaProcesos));
+              Planificador planificadorSJF = new PlanificadorSJF(listaProcesos);
               planificadorSJF.ejecutar();
               planificadorSJF.mostrarMatriz();
 
-              Planificador planificadorSRTF = new PlanificadorSRTF(clonar(listaProcesos));
+              Planificador planificadorSRTF = new PlanificadorSRTF(listaProcesos);
               planificadorSRTF.ejecutar();
               planificadorSRTF.mostrarMatriz();
 
-              Planificador planificadorRR = new PlanificadorRoundRobin(clonar(listaProcesos2),3);
+              Planificador planificadorRR = new PlanificadorRoundRobin(listaProcesos2,3);
               planificadorRR.ejecutar();
               planificadorRR.mostrarMatriz();
 
-              Planificador planificadorPrioridadesExpropiativo = new PlanificadorPrioridades(clonar(listaProcesos4),true);
+              Planificador planificadorPrioridadesExpropiativo = new PlanificadorPrioridades(listaProcesos4,true);
               planificadorPrioridadesExpropiativo.ejecutar();
               planificadorPrioridadesExpropiativo.mostrarMatriz();
 
-              Planificador planificadorPrioridadesNoExpropiativo = new PlanificadorPrioridades(clonar(listaProcesos4),false);
+              Planificador planificadorPrioridadesNoExpropiativo = new PlanificadorPrioridades(listaProcesos4,false);
               planificadorPrioridadesNoExpropiativo.ejecutar();
               planificadorPrioridadesNoExpropiativo.mostrarMatriz();
 
-              PlanificadorMulticolas planificadorMulticolas = new PlanificadorMulticolas(clonar(listaProcesos5),3);
+              PlanificadorMulticolas planificadorMulticolas = new PlanificadorMulticolas(listaProcesos5,3);
               planificadorMulticolas.ejecutar();
               planificadorMulticolas.mostrarMatriz(planificadorMulticolas.getListaFinal());
-        }
-
-        private static List<Proceso> clonar(List<Proceso> original) {
-                List<Proceso> copia = new ArrayList<>();
-                for (Proceso p : original)
-                        copia.add(p.clonar());
-                return copia;
         }
 }
