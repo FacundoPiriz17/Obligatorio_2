@@ -31,7 +31,7 @@ public class Main {
                                 new Proceso("P4", 3, 2, 10),
                                 new Proceso("P5", 4, 6, -15),
                                 new Proceso("P6", 5, 5, 30));
-/*
+
                 Planificador planificadorFCFS = new PlanificadorFCFS(listaProcesos);
                 System.out.println(planificadorFCFS.ejecutar());
                 planificadorFCFS.mostrarMatriz();
@@ -55,7 +55,7 @@ public class Main {
                 Planificador planificadorPrioridadesNoExpropiativo = new PlanificadorPrioridades(listaProcesos4, false);
                 System.out.println(planificadorPrioridadesNoExpropiativo.ejecutar());
                 planificadorPrioridadesNoExpropiativo.mostrarMatriz();
-*/
+
                 PlanificadorMulticolas planificadorMulticolas = new PlanificadorMulticolas(listaProcesos5, 3);
                 System.out.println(planificadorMulticolas.ejecutar());
                 planificadorMulticolas.mostrarMatriz();
