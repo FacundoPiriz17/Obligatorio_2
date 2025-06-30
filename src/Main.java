@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,31 +33,32 @@ public class Main {
                                 new Proceso("P6", 5, 5, 30));
 
                 Planificador planificadorFCFS = new PlanificadorFCFS(listaProcesos);
-                planificadorFCFS.ejecutar();
+                System.out.println(planificadorFCFS.ejecutar());
                 planificadorFCFS.mostrarMatriz();
 
+
                 Planificador planificadorSJF = new PlanificadorSJF(listaProcesos);
-                planificadorSJF.ejecutar();
+                System.out.println(planificadorSJF.ejecutar());
                 planificadorSJF.mostrarMatriz();
 
                 Planificador planificadorSRTF = new PlanificadorSRTF(listaProcesos);
-                planificadorSRTF.ejecutar();
+                System.out.println(planificadorSRTF.ejecutar());
                 planificadorSRTF.mostrarMatriz();
 
                 Planificador planificadorRR = new PlanificadorRoundRobin(listaProcesos2, 3);
-                planificadorRR.ejecutar();
+                System.out.println(planificadorRR.ejecutar());
                 planificadorRR.mostrarMatriz();
 
                 Planificador planificadorPrioridadesExpropiativo = new PlanificadorPrioridades(listaProcesos4, true);
-                planificadorPrioridadesExpropiativo.ejecutar();
+                System.out.println(planificadorPrioridadesExpropiativo.ejecutar());
                 planificadorPrioridadesExpropiativo.mostrarMatriz();
 
                 Planificador planificadorPrioridadesNoExpropiativo = new PlanificadorPrioridades(listaProcesos4, false);
-                planificadorPrioridadesNoExpropiativo.ejecutar();
+                System.out.println(planificadorPrioridadesNoExpropiativo.ejecutar());
                 planificadorPrioridadesNoExpropiativo.mostrarMatriz();
 
                 PlanificadorMulticolas planificadorMulticolas = new PlanificadorMulticolas(listaProcesos5, 3);
-                planificadorMulticolas.ejecutar();
-                planificadorMulticolas.mostrarMatriz(planificadorMulticolas.getListaFinal());
+                System.out.println(planificadorMulticolas.ejecutar());
+                planificadorMulticolas.mostrarMatriz();
         }
 }

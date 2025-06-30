@@ -58,6 +58,8 @@ public abstract class Planificador {
         System.out.println("Cola de listos: " + listaEspera.stream().map(Proceso::getNombre).toList());
     }
 
+
+
     public void mostrarMatriz() { // muestra matriz con tiempo de espera, tiempo de retorno, tiempo de respuesta
         mostrarMatriz(procesos);
     }
