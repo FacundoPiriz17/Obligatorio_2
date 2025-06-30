@@ -123,19 +123,29 @@ public class PlanificadorMulticolas extends Planificador {
                 if (p.getTiempoPrimeraEjecucion() == -1) {
                     p.setTiempoPrimeraEjecucion(tiempoGlobal);
                 }
+
+                boolean interrumpido = false;
                 while (!p.ejecucionFinalizada()) {
+                    verificarLlegadas(pendientesTiempoReal, colaTiempoReal);
+                    verificarLlegadas(pendientesInteractivos, colaInteractivos);
+                    verificarLlegadas(pendientesBatch, colaBatch);
+                    // Interrupción por Tiempo Real o Interactivo
+                    if (!colaTiempoReal.isEmpty() || !colaInteractivos.isEmpty()) {
+                        colaBatch.add(0, p); // volver al frente
+                        interrumpido = true;
+                        break;
+                    }
                     mostrarEncabezadoTiempo(tiempoGlobal);
                     System.out.println("Ejecutando " + p.getNombre() + " (BATCH)");
                     imprimirColasDeListos(colaInteractivos, colaBatch, colaTiempoReal);
                     mapeoFinal.add(p.getNombre());
                     p.ejecutar(1);
                     tiempoGlobal++;
-                    verificarLlegadas(pendientesTiempoReal, colaTiempoReal);
-                    verificarLlegadas(pendientesInteractivos, colaInteractivos);
-                    verificarLlegadas(pendientesBatch, colaBatch);
                     espera();
                 }
-                finalizarProceso(p, tiempoGlobal);
+                if (!interrumpido) {
+                    finalizarProceso(p, tiempoGlobal);
+                }
                 ejecutado = true;
             }
 
@@ -178,8 +188,6 @@ public class PlanificadorMulticolas extends Planificador {
     }
 
 
-
-
     private void finalizarProceso(Proceso p, int tiempoFinal) {
         p.setTiempoDeFinalizacion(tiempoFinal);
         p.setTiempoDeRetorno();
@@ -190,15 +198,6 @@ public class PlanificadorMulticolas extends Planificador {
 
     public List<Proceso> getListaFinal() {
         return listaFinal;
-    }
-
-    private boolean hayTiempoRealDisponible(List<Proceso> tiempoReal, int tiempoActual) {
-        for (Proceso p : tiempoReal) {
-            if (p.getTiempoDeLlegada() <= tiempoActual) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void imprimirColasDeListos(Collection<Proceso> interactivos, Collection<Proceso> batch, Collection<Proceso> tiempoReal) {
