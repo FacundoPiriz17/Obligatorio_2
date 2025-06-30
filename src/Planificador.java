@@ -58,17 +58,11 @@ public abstract class Planificador {
         System.out.println("Cola de listos: " + listaEspera.stream().map(Proceso::getNombre).toList());
     }
 
+    public void mostrarMatriz() { // crea el formato para mostrar la matriz
+        int[][] matriz = new int[procesos.size()][3];
 
-
-    public void mostrarMatriz() { // muestra matriz con tiempo de espera, tiempo de retorno, tiempo de respuesta
-        mostrarMatriz(procesos);
-    }
-
-    public void mostrarMatriz(List<Proceso> lista) { // crea el formato para mostrar la matriz
-        int[][] matriz = new int[lista.size()][3];
-
-        for (int i = 0; i < lista.size(); i++) {
-            Proceso proceso = lista.get(i);
+        for (int i = 0; i < procesos.size(); i++) {
+            Proceso proceso = procesos.get(i);
             matriz[i][0] = proceso.getTiempoDeEspera();
             matriz[i][1] = proceso.getTiempoDeRetorno();
             matriz[i][2] = proceso.getTiempoDeRespuesta();
@@ -84,8 +78,8 @@ public abstract class Planificador {
         System.out.println(lineaSeparadora);
 
         // Filas
-        for (int i = 0; i < lista.size(); i++) {
-            Proceso proceso = lista.get(i);
+        for (int i = 0; i < procesos.size(); i++) {
+            Proceso proceso = procesos.get(i);
             System.out.printf(formatoEncabezado, proceso.getNombre(),
                     matriz[i][0], matriz[i][1], matriz[i][2]);
         }
